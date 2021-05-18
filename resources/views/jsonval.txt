@@ -1,0 +1,11 @@
+[{"subject":"sample subject","from_level":"1","to_level":"3"},
+{"subject":"Thermodynamics","from_level":"1","to_level":"2"},
+{"subject":"Electronics","from_level":"1","to_level":"3"},
+{"subject":"oracle cloud","from_level":"1","to_level":"3"},
+{"subject":"Java","from_level":"1","to_level":"1"},
+{"subject":"Zoology","from_level":"1","to_level":"2"}]
+
+DB::enableQueryLog();
+
+ DB::getQueryLog();
+
