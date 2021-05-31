@@ -75,7 +75,7 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                
             </a>
         </x-slot>
       
@@ -115,10 +115,14 @@
                     <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                      
                 </label>
-                
-            </div>
+              
+                <x-button class="ml-3 traef" style="float: right;">
+                    {{ __('Log in') }}
+                </x-button>
            
-          <div class="row">
+            </div>
+            </form>
+          <div class="row block mt-4">
              <div class="col-sm-6">
                 <button class="loginBtn loginBtn--facebook traef" style="font-size: small;">
   Login with Facebook
@@ -130,26 +134,24 @@
 </button>
   </div>  
  </div>
-<div class="flex items-center justify-initial mt-4">
+
+ <div class="row block mt-4">
+ <div class="col-sm-6">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
             </div>
-<div class="row">
-<div class="flex items-center justify-initial col-sm-6">
+
+            <div class="col-sm-6">
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" style="float: right;" href="{{ route('register') }}">
                       Don't have an Account?
                     </a>
-            </div>
-            <div class="flex items-center justify-end col-sm-6">
-                <x-button class="ml-3 traef">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-            </div>
-        </form>
+                    </div>  
+ </div>
+           
+       
     </x-auth-card>
 </x-guest-layout>
 </x-app-layout>

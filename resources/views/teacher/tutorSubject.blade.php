@@ -25,12 +25,9 @@ a.btn-floating:hover {
 
 </style>
 <x-register-layout>
-  
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+           
         </x-slot>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -47,8 +44,9 @@ a.btn-floating:hover {
 @endif
 <div class="mt-4">
     <h3 class="box-title"><i class="fas fa-chalkboard-teacher" style="color: blue;"></i>Subjects You Teach 
-    <span class="text-muted" style="font-size: medium;">&nbsp;&nbsp;<a href="#exampleModalCenter" 
-    class="traef" data-toggle="modal" data-target="#exampleModalCenter">Add a Subject</a></span></h3>
+    <!-- <span class="text-muted" style="font-size: medium;">&nbsp;&nbsp;
+    <a href="#exampleModalCenter" class="traef" data-toggle="modal" data-target="#exampleModalCenter">Add a Subject</a></span> -->
+    </h3>
 </div>
 <div class="mt-4">
 @php
@@ -164,19 +162,22 @@ $sub_res=trim($sub_con, '[""]');
     <div class="mt-4">
 <label for="exampleInputEmail1">Subject<span class="text-muted" style="font-size: small;">&nbsp; (One at a Time)</span></label>
 <div class="">
-<select required  name="subject_tech" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" id="user_type" class="block mt-1 w-full">
+<!-- <select required  name="subject_tech" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" id="user_type" class="block mt-1 w-full">
 <option value="" class="text-muted">--Please Select Subject--</option>
 @foreach ($subject_data as $cat)
 <option value="{{ $cat->id }}">{{ $cat->subject_name }}</option>
 @endforeach
-</select>
+</select> -->
+
+<x-input id="typeahead1" placeholder="Enter Subject Name" name="subject_tech" class="block mt-1 w-full typeahead form-control" type="text" required />
+
 </div>
-</div>
-<div class="mt-4">
+
+<!-- <div class="mt-4">
 <button type="button" class="traef btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
 <i class="fas fa-plus-circle"style="color: white;"></i>&nbsp;&nbsp;If not in options above, add a new subject.
 </button>
-</div>
+</div> -->
 <div class="mt-4">
     <x-label for="Location" :value="__('From Level')" />
     <div class="">
@@ -262,6 +263,19 @@ $sub_res=trim($sub_con, '[""]');
   </div>
 </div>
 
+<script type="text/javascript">
+    var path = "{{ route('autocomplete') }}";
+    $('input.typeahead').typeahead({
+     
+        source:  function (query, process) {
+          
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+</script>
     </x-auth-card>
 </x-register-layout>
 

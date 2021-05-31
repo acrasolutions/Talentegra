@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'user_type' => 'required|max:255',
             'password' => 'required|string|confirmed|min:8',
         ]);
-    // dd($request->user_type);
+   
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

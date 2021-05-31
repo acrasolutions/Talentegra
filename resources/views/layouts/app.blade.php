@@ -22,9 +22,18 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+
+
+<!-- student post requirement -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 
        
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- student post requirement ends-->
+
         <link rel="stylesheet" href="{{ asset('css/common-combined-style.css') }}">
          <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
          <script src="{{ asset('css/common-combined-style.css') }}"></script>
@@ -39,7 +48,7 @@
     .min-h-screen {
     min-height: 0 vh !important;
 }
-traef:hover {
+.traef:hover {
   
   transition: all .1s ease-in;
     transform: translateY(-2px) translateX(-2px) scale(1.06);
@@ -60,6 +69,29 @@ a.btn-floating:hover {
      -moz-transition-duration: 0.5s;
      -o-transition-duration: 0.5s;
  }
+ .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #2D2959;
+    color: white;
+    border: #2D2959;
+    border-radius: 3px;
+    border-radius: 4px !important;
+    cursor: default;
+    float: left;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 0 6px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: darkgrey !important;
+    
+}
+.select2-results__option, .select2-dropdown.select2-dropdown--below {
+    background-color: white;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #2D2959;
+    color: white;
+}
 
 </style>
     </head>

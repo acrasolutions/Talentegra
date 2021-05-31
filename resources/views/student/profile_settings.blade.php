@@ -18,7 +18,9 @@ button:focus {
     box-shadow: none;
     border-color: #BA68C8
 }
-
+.alicon{
+    height: 150px;
+}
 .profile-button {
     background: #BA68C8;
     box-shadow: none;
@@ -72,28 +74,38 @@ button:focus {
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-2">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-2 mb-2">
             @if(Auth::user()->profile_img == null)
             <img class="img-responsive- rounded-x mt-5" src="{{ URL::asset('public/uploads/profile_image/default/pink.jpg')}}"style="height:100px; width:100px;">
             @else
             <img class="img-responsive- rounded-x mt-5" src="{{ URL::asset('public/uploads/profile_image/' .Auth::user()->profile_img)}}" style="height:100px; width:100px;">
+            <a class="delete" title="Delete profile image" data-toggle="tooltip" onclick="return confirm('Are you sure you want to delete?');" href="{{ route('student.DeleteProfileImage') }}" style="font-size: 1.5rem;color: red;"><i class="material-icons">&#xE872;</i></a>
             @endif
-            <span class="font-weight-bold" style="text-transform: capitalize;">{{ Auth::user()->name }}</span><span class="text-black-50">{{ Auth::user()->email }}</span><span>{{ Auth::user()->iam_type }}</span></div>
+           
+            <!-- <h6 class=".text-center wei" style="display: contents;"> <a class="btn btn-sm btn-danger waves-effect waves-light"
+                     onclick="return confirm('Are you sure you want to delete?');" href="{{ route('student.DeleteProfileImage') }}"><i class='fa fa-trash'></i></a></h6> -->
+            <span class="font-weight-bold mt-4" style="text-transform: capitalize;">{{ Auth::user()->name }}</span><span class="text-black-50">{{ Auth::user()->email }}</span><span>{{ Auth::user()->iam_type }}</span></div>
            
             <form method="POST" id="validate_form" enctype="multipart/form-data" method="post" action="{{ route('student.UpdateProfileImage') }}">
             @csrf
            
-                <div class="d-flex justify-content-between align-items-center mb-1">
+                <div class="d-flex justify-content-between align-items-center mb-1" style="padding-top: 2rem;">
                 <div class="d-flex justify-content-between align-items-center experience wei"><span><span class="far fa-image fac" style="font-size: large;
 }"></span>&nbsp;&nbsp;{{ __('Profile Photo') }}</span>
                 </div>
                 
                 </div>
-                <span class="d-block text-black-50 labels mb-1">{{ __('Manage your profile picture')}}</span>
-                <div class="bootstrap-filestyle input-group"><input type="file" class="fin" name="profile_img" id="imgInp"/> 
+                <span class="d-block text-black-50 labels mb-3">{{ __('Manage your profile picture')}}</span>
+                <div class="row">
+                <div class="bootstrap-filestyle input-group" style="justify-content: center;display: grid;"><input type="file" class="fin" name="profile_img" id="imgInp"/> 
                 <span class="group-span-filestyle input-group-btn" tabindex="0"><label for="profilePic" class="btn btn-primary ">
                 <span class="icon-span-filestyle fa fa-upload">
-                </span> <span class="buttonText"> Update Profile Image</span></label></span></div>
+                </span> <span class="buttonText"> Update Profile Image</span></label></span>
+                <div class="col-md-3">
+                   
+                 </div>
+                </div>
+                </div>
                 <div>
         <img id='img-upload'/>
     </div>
@@ -106,77 +118,85 @@ button:focus {
                  </div>
                  </form>
                  @if(Auth::user()->profile_img != null)
-                 <div class="d-flex justify-content-between align-items-center mb-3 mt-5">
-                    <h6 class=".text-center wei"> <a class="btn btn-sm btn-danger waves-effect waves-light"
-                     onclick="return confirm('Are you sure you want to delete?');" href="{{ route('student.DeleteProfileImage') }}"><i class='fa fa-trash'></i> Delete Profile Image</a> </h6>
-                     <!-- <div class="profile-img-full"><img style="margin-left:0px;" src="{{ URL::asset('public/uploads/profile_image/' .Auth::user()->profile_img)}}"></div> -->
-            <!-- <img class="rounded-circle mt-1" src="{{ URL::asset('public/uploads/profile_image/' .Auth::user()->profile_img)}}" width="90"> -->
+                 
+                @endif
+                @if(Auth::user()->user_type == 'Teacher')
+                <hr style="margin-top: 25px;">
+                <div class="d-flex flex-row mt-3 exp-container alicon" style="padding-top:3rem"><span class="fas fa-user-alt fac" style="font-size: large;margin: 2px;"></span>
+                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">Profile Active</span>
+                    <span class="d-block text-black-50 labels mb-2">Deactivate your profile if you wish to take a temporary break from teaching.</span>
+                    <span class="fas fa-exclamation-triangle color-orange d-block text-black-50 labels"> &nbsp;&nbsp;<span class="">If you deactivate profile students will not be able to contact you until you activate it again.</span></span>
+                    <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Deactivate profile </a>
+                    </div>
                 </div>
                 @endif
             </div>
             
-     
-       
+            
+            
+            @if(Auth::user()->user_type == 'Teacher')
+            <div class="col-md-3 border-right">
+            @else
         <div class="col-md-5 border-right">
+        @endif
+        
             <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="text-right wei">General settings</h6>
                 </div>
-                <div class="d-flex flex-row mt-3 exp-container"><span class="fas fa-envelope fac" style="font-size: large;margin: 2px;"></span>
+                <div class="d-flex flex-row mt-3 exp-container alicon">
+                
+                <span class="fas fa-envelope fac" style="font-size: large;margin: 2px;"></span>
 <!-- 2021-05-14 06:23:29 -->
                     <div class="work-experience ml-1"><span class="font-weight-bold d-block">Email</span>
                     <span class="d-block text-black-50 labels">Your email is <b>{{ Auth::user()->email }}</b></span>
                     <span class="text-black-50"> <a href="#emailmodel" data-toggle="modal" data-target="#emailmodel" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Change Email</a></span></div>
                 </div>
-                <hr>
-                <div class="d-flex flex-row mt-3 exp-container"><span class="fas fa-phone fac" style="font-size: large;margin: 2px;"></span>
+                <hr style="margin-top: 12px !important;">
+                <div class="d-flex flex-row mt-3 exp-container alicon" style="padding-top: 3rem;"><span class="fas fa-phone fac" style="font-size: large;margin: 2px;"></span>
                     <div class="work-experience ml-1"><span class="font-weight-bold d-block">Phone</span>
                     <span class="d-block text-black-50 labels">Add, remove, and verify phone numbers.</span>
                     <span class="text-black-50"> <a href="{{ route('teacher.UserPhone') }}" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Manage Phone Numbers</a></span></div>
                 </div>
                 <hr>
-                <div class="d-flex flex-row mt-3 exp-container"><span class="fas fa-signature fac" style="font-size: large;margin: 2px;
+                <div class="d-flex flex-row mt-3 exp-container alicon" style="padding-top:3rem">
+                <span class="fas fa-user-alt fac" style="font-size: large;margin: 2px;"></span>
+<div class="work-experience ml-1"><span class="font-weight-bold d-block">Profile Live</span>
+                    <span class="d-block text-black-50 labels"><span class="fas fa-exclamation-triangle color-orange" style="font-size: larger;"></span> &nbsp;&nbsp;If you delete your profile, you will lose all your data permanently.</span>
+                    <span class="text-black-50"> <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Delete Profile</a></span></div>
+                </div>
+
+            </div>
+
+        </div>
+        @if(Auth::user()->user_type == 'Teacher')
+        <div class="col-md-3 border-right">
+       @else 
+       <div class="col-md-4 border-right">
+       @endif
+            <div class="p-3 py-5">
+           
+                <div class="d-flex flex-row mt-5 exp-container alicon">
+               
+                <span class="fas fa-signature fac" style="font-size: large;margin: 2px;
 }"></span>
                     <div class="work-experience ml-1"><span class="font-weight-bold d-block">Name</span>
                     <span class="d-block text-black-50 labels">Manage how others see your name.</span>
                     <span class="text-black-50"> <a href="#namemodel" data-toggle="modal" data-target="#namemodel"
                      class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Manage Name</a></span></div>
                 </div>
-               
-                
-                
-                <!-- <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value="John"></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="Doe" placeholder="Doe"></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Headline</label><input type="text" class="form-control" placeholder="headline" value="UI/UX Developer"></div>
-                    <div class="col-md-12"><label class="labels">Current position</label><input type="text" class="form-control" placeholder="headline" value="UI/UX Developer at Boston"></div>
-                    <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value="Boston University"></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value="USA"></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="Boston" placeholder="state"></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div> -->
-            </div>
-        </div>
-        <div class="col-md-4">
-       
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience wei"><span>Profile settings</span>
-                </div>
-                <div class="d-flex flex-row mt-3 exp-container"><span class="fas fa-user-alt fac" style="font-size: large;margin: 2px;
-}"></span>
-                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">Profile Live</span>
-                    <span class="d-block text-black-50 labels"><span class="fas fa-exclamation-triangle color-orange" style="font-size: larger;"></span> &nbsp;&nbsp;If you delete your profile, you will lose all your data permanently.</span>
-                    <span class="text-black-50"> <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Delete Profile</a></span></div>
-                </div>
                 <hr>
                 <div class="p-2 py-2">
                 <div class="d-flex justify-content-between align-items-center experience wei"><span>Student account settings</span>
                 </div>
-                <div class="d-flex flex-row mt-3 exp-container"><span class="fas fa-eye fac" style="font-size: large;margin: 2px;
+                @if(Auth::user()->user_type == 'Teacher')
+                <div class="d-flex flex-row mt-3 exp-container alicon"><span class="fas fa-user fac" style="font-size: large;margin: 2px;"></span>
+                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">Open student account</span>
+                    <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Open student Account</a>
+                   </div>
+                </div>
+                @else
+                <div class="d-flex flex-row mt-3 exp-container alicon"><span class="fas fa-eye fac" style="font-size: large;margin: 2px;
 }"></span>
                     <div class="work-experience ml-1"><span class="font-weight-bold d-block">Post visibility</span>
                     <span class="d-block text-black-50 labels mb-2">Select how your posts are made public</span>
@@ -184,23 +204,59 @@ button:focus {
                                                     <option value="keepPublic">Always make public</option>
                                                     <option value="chooseWhilePosting">Decide while posting</option>
                                                 </select></span></div>
+                </div> 
+                @endif
                 </div>
-                </div>
-                <hr>
+                <hr style="margin-top: -31px;">
                 <div class="d-flex justify-content-between align-items-center experience wei"><span>Tutor account settings</span>
                 </div>
-                <div class="d-flex flex-row mt-3 exp-container"><span class="fas fa-chalkboard-teacher fac" style="font-size: large;margin: 2px;"></span>
+                @if(Auth::user()->user_type == 'Teacher')
+                <div class="d-flex flex-row mt-3 exp-container alicon"><span class="fas fa-address-book fac" style="font-size: large;margin: 2px;"></span>
+                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">Manage Show Contact Settings</span>
+                    <span class="d-block text-black-50 labels mb-2">Options to set how your contact details are shown to students.</span>
+                    <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">show contact settings</a>
+                   </div>
+                </div>
+                @else
+                <div class="d-flex flex-row mt-3 exp-container alicon"><span class="fas fa-chalkboard-teacher fac" style="font-size: large;margin: 2px;"></span>
                     <div class="work-experience ml-1"><span class="font-weight-bold d-block">Open tutor account</span>
                     <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Open Tutor Account</a>
                    </div>
                 </div>
-                <!-- <div class="d-flex flex-row mt-3 exp-container"><img src="https://img.icons8.com/color/50/000000/google-logo.png" width="45" height="45">
-                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">UI/UX Designer</span><span class="d-block text-black-50 labels">Google Inc.
-                    </span><span class="d-block text-black-50 labels">March,2017 - May 2020</span></div>
-                </div> -->
+                @endif
+        </div>
+        </div>
+        @if(Auth::user()->user_type == 'Teacher')
+            <div class="col-md-3 border-right">
+            <div class="p-3 py-5">
+                
+                <div class="d-flex flex-row mt-5 exp-container alicon" ><span class="fas fa-wallet fac" style="font-size: large;margin: 2px;"></span>
+
+                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">Payment receiving settings</span>
+                    <span class="d-block text-black-50 labels mb-2">Manage accounts in which you receive payment when a student pays you.</span>
+                    <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Accounts fro getting paid</a></div>
+                </div>
+                <hr>
+                <div class="d-flex flex-row mt-3 exp-container alicon" style="padding-top: 3rem;"><span class="fab fa-searchengin fac" style="font-size: large;margin: 2px;"></span>
+                    <div class="work-experience ml-1"><span class="font-weight-bold d-block">Search Engine visibility</span>
+                    <span class="d-block text-black-50 labels">Your profile can be seen by Google and other search engines (recommended)</span>
+                    <a href="#" class="btn-u btn-brd btn-brd-hover rounded btn-u-blue btn-u-xs margin-top-10 margin-bottom-20 text-center">Hide profile from Google </a>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex flex-row mt-3 exp-container alicon" style="padding-top:3rem"><span class="fas fa-briefcase  fac" style="font-size: large;margin: 2px;
+}"></span>
+                    <div class="work-experience ml-1"><span class="font-weight-bold d-block mb-2">Email preferences</span>
+                    <input class="form-check-input" style="margin-left: -19px;" required name="one_acc" type="checkbox" checked value="yes" id="flexCheckChecked">   Get Job notifications<br>
+
+                    <input class="form-check-input" style="margin-left: -19px;" required name="one_acc" type="checkbox" checked value="yes" id="flexCheckChecked">   Get notification of local students around me
+                   </div>
+                </div>
+                
+
             </div>
         </div>
-    </div>
+        @endif
       <!-- Email Modal -->
 <div class="modal fade" id="emailmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

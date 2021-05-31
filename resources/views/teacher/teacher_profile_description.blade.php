@@ -50,9 +50,6 @@ function setcolor(obj,percentage,prop){
 <x-register-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
         </x-slot>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -64,6 +61,22 @@ function setcolor(obj,percentage,prop){
             <div class="mt-4">
                 <h3 class="box-title"><i class="fas fa-id-badge" aria-hidden="true" style="color: blue;"></i> Profile Description </h3>
             </div>
+            @php
+            $teach_detl = DB::table('profiles')->where('user_id', Auth()->user()->id)->get('profile_description')->toArray();
+          
+         if($teach_detl[0]->profile_description != null){
+         
+    foreach ($teach_detl as $value){
+        foreach ($value as $det){
+          $te_det[] = json_decode($det, TRUE);
+          foreach ($te_det as $s_ex){
+            $ss_fin=$s_ex[0];
+          }
+        }
+        }
+         }
+       
+                @endphp
             <div class="alert alert-info" style="padding: 5px;">
                     <table class="table noBorderTable no-margin-bottom">
                     <tbody><tr>
@@ -83,7 +96,9 @@ function setcolor(obj,percentage,prop){
 <textarea name="profile_description" style="width:100%;color: black;" required rows="15" id="maxcharfield"
 onKeyDown="textCounter(this,'progressbar1',300)"
 onKeyUp="textCounter(this,'progressbar1',300)"
-onFocus="textCounter(this,'progressbar1',300)">
+onFocus="textCounter(this,'progressbar1',300)">@if($teach_detl[0]->profile_description != null)
+{{$ss_fin['profile_des']}}
+@endif
 </textarea>
 <br/>
 <div id="progressbar1" class="progress traef" style="width: 100%; padding: 2%; align-items: center;"></div>

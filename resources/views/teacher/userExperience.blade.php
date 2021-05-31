@@ -20,9 +20,6 @@
 <x-register-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
         </x-slot>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -93,6 +90,7 @@ $bk_room = DB::table('profiles')->select('professional_exp')->where('user_id', A
     <x-input id="Designation" value="{{ $name['designation'] }}" class="block mt-1 w-full" type="text"  name="up_designation"  required />
     </div>
   </div>
+  
   <div class="form-group row">
             <label for="staticEmail" class="col-sm-4 col-form-label">Start Date</label>
     <div class="col-sm-3">

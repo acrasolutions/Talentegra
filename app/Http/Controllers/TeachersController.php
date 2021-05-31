@@ -9,6 +9,8 @@ use App\Models\Profiles;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Nicolaslopezj\Searchable\SearchableTrait;
+
 
 class TeachersController extends Controller
 {
@@ -27,7 +29,82 @@ class TeachersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    
 
+    public function TutorView_sPost(Request $request)
+    {
+       
+        //  dd($request->all());
+        $grade_All = DB::table('grade_level')->get()->all();
+        $subjects = DB::table('subjects')->get()->all();
+        $obs_cat= DB::table('student_posts')->where('id', $request->porequest)->orderBy('id','desc')->get();
+     return view('teacher.teac_view_post', compact('grade_All','subjects','obs_cat'));
+    }
+
+
+    public function TeacherDashboard(Request $request)
+        {
+            return view('teacher.teacher_dashboard');
+        }
+
+        public function TutorViewProfile(Request $request)
+        {
+            $teacher_id=$request->t_view;
+            $t_info = Profiles::where('user_id', $teacher_id)->get('subject_tech')->toArray();
+         
+foreach ($t_info as $value){
+foreach ($value as $rooms){
+  $t_sub[] = json_decode($rooms, TRUE);
+}
+}
+//  dd($t_sub[0]);
+    $t_des = Profiles::where('user_id', $teacher_id)->get('profile_description')->pluck('profile_description');      
+    $t_des_sec= json_decode($t_des[0], true);
+    $t_des_ext=str_replace(array("\r\n"), '', $t_des_sec[0]['profile_des']);
+   
+    $f_f_user = User::where('id', $teacher_id)->get()->first();
+    $f_det = Profiles::where('user_id', $teacher_id)->get()->first();
+
+//sidebar details
+    $teach_detl = Profiles::where('user_id', $teacher_id)->get('teaching_details')->toArray();
+    foreach ($teach_detl as $value){
+        foreach ($value as $det){
+          $te_det[] = json_decode($det, TRUE);
+          foreach ($te_det as $s_ex){
+            $ss_fin=$s_ex[0];
+          }
+        }
+        }
+
+        $profs_info = Profiles::where('user_id', $teacher_id)->get('professional_exp')->toArray();
+        foreach ($profs_info as $value){
+        foreach ($value as $pr_det){
+          $fi_pro[] = json_decode($pr_det, TRUE);
+          foreach ($fi_pro as $pro_lbs){
+            $ols=$pro_lbs;
+          }
+        }
+        }
+
+        $edu_t_info = Profiles::where('user_id', $teacher_id)->get('user_education')->toArray();
+        foreach ($edu_t_info as $value){
+        foreach ($value as $edua){
+          $edu_t_info_a[] = json_decode($edua, TRUE);
+          foreach ($edu_t_info_a as $edu_fins){
+            $oel=$edu_fins;
+          }
+        }
+        }
+   
+            return view('teacher.t_profile_view', compact('t_sub','t_des_ext','f_det','f_f_user','ss_fin','ols','oel'));
+        }
+
+    public function autocomplete(Request $request)
+    {
+        $data = DB::table('subjects')->where('subject_name','LIKE','%'.$request->search."%")->pluck('subject_name');
+   
+        return response()->json($data);
+    }
      
     public function TeacherAddIam(Request $request)
     {
@@ -42,9 +119,9 @@ class TeachersController extends Controller
         $iamCompany_add->save();
 
          if($request->iam_type == 'Tutoring Company'){
-         return redirect()->route('teacher.teacherIamCompany')->with('success', 'Email Verified');
+         return redirect()->route('teacher.teacherIamCompany')->with('success', 'Details Added');
         }
-        return redirect()->route('teacher.TeacherBasicDetails')->with('success', 'Email Verified');
+        return redirect()->route('teacher.TeacherBasicDetails')->with('success', 'Details Added');
     } 
 
         public function teacherIamCompany()
@@ -70,13 +147,15 @@ class TeachersController extends Controller
 
         public function TeacherBasicDetails()
         {
-            return view('teacher.teacher_basic_details');
+            $basic_info = Profiles::where('user_id', Auth::user()->id)->get()->first();
+            return view('teacher.teacher_basic_details', compact('basic_info'));
     
         }
 
         public function UserAddress()
         {
-            return view('teacher.teacher_address');
+            $detail = Profiles::select('location','postalcode')->where('user_id', Auth::user()->id)->get()->first();
+            return view('teacher.teacher_address', compact('detail'));
     
         }
 
@@ -95,9 +174,11 @@ class TeachersController extends Controller
                 'dob' => $request->dob,
             ];
             Profiles::where('user_id', Auth::user()->id)->update($update_basic_iam_profile);
-            return redirect()->route('teacher.UserAddress')
+
+            
+                return redirect()->route('teacher.UserAddress')
             ->with('success','Personal Details Updated');
-    
+           
         }
         
         public function AddUserAddress(Request $request)
@@ -108,8 +189,9 @@ class TeachersController extends Controller
                
             ];
             Profiles::where('user_id', Auth::user()->id)->update($user_address);
+
             return redirect()->route('teacher.UserPhone')
-            ->with('success','Address Saved');
+                ->with('success','Address Saved');
     
         }
 
