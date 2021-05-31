@@ -537,7 +537,7 @@ select.form-control:not([size]):not([multiple]) {
 .timeline-likes {
     color: #6d767f;
     font-weight: 600;
-    font-size: 14px
+    font-size: 12px
 }
 
 .timeline-likes .stats-right {
@@ -591,11 +591,9 @@ select.form-control:not([size]):not([multiple]) {
  </x-slot>
 
 @php
- $obs_cat= DB::table('student_posts')->where('user_id', Auth()->user()->id)->orderBy('id','desc')->paginate(10);
-
+ $obs_cat= DB::table('student_posts')->where('user_id', Auth()->user()->id)->orderBy('id','desc')->paginate(2);
 @endphp
-@if($obs_cat->count() > 0)
-
+@if($obs_cat != null);
 <div class="container">
 
    <div class="row">
@@ -649,12 +647,11 @@ select.form-control:not([size]):not([multiple]) {
                         <li>
                            <!-- end timeline-icon -->
                            @foreach ($obs_cat as $key => $row)
-                          
                            <!-- begin timeline-body -->
                           
                            <div class="timeline-body mb-4 hef">
                               <div class="timeline-header">
-                              <a href="">
+                              <a href="#">
                               <span class="username text-primary">
 
                                  @php
@@ -670,35 +667,18 @@ select.form-control:not([size]):not([multiple]) {
                                     $sd_name = str_replace('"', ' ', $s_name); 
                                   
                                  @endphp
-                                 @php $meet_opt=json_decode($row->meeting_options);
-                                @endphp
                                 @if($row->st_i_want != "Assignment")
-                                
-                                @if(((in_array('Home', $meet_opt)) && in_array('Online', $meet_opt)))
-                                 Home | Online {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Home', $meet_opt))
-                                 Home {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Online', $meet_opt))
-                                 Online {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                
-                                 @elseif(in_array('Travel', $meet_opt))
-                                 <span class="text-capitalize"> {{$sd_name}}</span> teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span> </a>
+                                 @if($row->meeting_options == "Online")
+                                 Online | online {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 @elseif($row->meeting_options == "Home")
+                                 Home | online {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 @elseif($row->meeting_options == "Travel")
+                                   {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
                                  @endif
+                                 @else
+                                 <span class="text-capitalize"> {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span> </span></a>
                                  @endif
-                                 @if($row->st_i_want == "Assignment")
-                                 
-                                 @if(((in_array('Home', $meet_opt)) && in_array('Online', $meet_opt)))
-                                 Home | Online {{$sd_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Home', $meet_opt))
-                                 Home {{$sd_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Online', $meet_opt))
-                                 Online {{$sd_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 
-                                 @elseif(in_array('Travel', $meet_opt))
-                                 <span class="text-capitalize"> {{$sd_name}}</span> assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span></a>
-                                 @endif
-                                 @endif
-
+                                   
                                  <span class="pull-right text-muted"><span class="tooltips  margin-right-10  " data-toggle="tooltip" data-placement="bottom" data-original-title="{{ $row->st_location }}">
                                     <span class="h3">
                                         <i class="fas fa-map-marker-alt text-primary"></i>
@@ -759,7 +739,7 @@ select.form-control:not([size]):not([multiple]) {
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                <a href="#"><button type="button" class="btn btn-danger">Close Post</button></a>
+                <a href="{{route('student.DeletePost', ['post_id'=>$row->id]) }}"><button type="button" class="btn btn-danger">Close Post</button></a>
 			</div>
 		</div>
 	</div>
@@ -794,6 +774,5 @@ select.form-control:not([size]):not([multiple]) {
   </div>
 </div>
     @endif
-   
 
 </x-app-layout>

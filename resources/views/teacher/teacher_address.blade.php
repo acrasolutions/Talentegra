@@ -9,9 +9,7 @@
   
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+           
         </x-slot>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -36,22 +34,38 @@
                     </tr>
                     </tbody></table>
                 </div>
-
+                @php
+                $ck_Add = DB::table('profiles')->select('location','postalcode')->where('user_id',Auth()->user()->id)->get();
+                @endphp
+@if($ck_Add[0]->location != null)
+                <div class="mt-4 mb-4">
+                <x-label class="text-bold mb-3" for="Location" :value="__('Address')" />
+                <p class="text-capitalize">{{$ck_Add[0]->location}} {{$ck_Add[0]->postalcode}}<span class="color-blue margin-left-20- display-inline-block no-padding" title="Edit Address"><i class="fas fa-pencil-alt ml-2"></i></span></p>
+            </div>
+@endif
             <!-- Email Address -->
              <div class="mt-4">
                 <x-label for="Location" :value="__('Location')" />
 
-                <x-input id="Location" placeholder="Enter Location" class="block mt-1 w-full" type="text"  name="location"  required />
+                <x-input id="Location" placeholder="Enter Location" class="block mt-1 w-full" type="text" value="{{ $detail->location }}"  name="location"  required />
             </div>
             <div class="mt-4">
                 <x-label for="Location" :value="__('Postal Code')" />
 <p style="color: red; font-size: smaller;">Note: Enter your postal code only if, you are sure it is correct.</p>
-                <x-input id="Location"  type="text"  name="postalcode" data-parsley-type="digits" pattern="^[0-9]*$" onkeypress="return isNumber(event)"  placeholder="Postal Code" class="block mt-1 w-full" data-toggle="tooltip" title="Enter your postal code only if, you are sure it is correct." />
+                <x-input id="Location"  type="text" value="{{ $detail->postalcode }}"  name="postalcode" data-parsley-type="digits" pattern="^[0-9]*$" onkeypress="return isNumber(event)"  placeholder="Postal Code" class="block mt-1 w-full" data-toggle="tooltip" title="Enter your postal code only if, you are sure it is correct." />
             </div>
+            
  <div class="flex items-center justify-end mt-4">
+ @if($ck_Add[0]->location == null)
                 <x-button class="ml-4" class="traef">
                     {{ __('Save') }}
                 </x-button>
+                @else
+                <x-button class="ml-4" class="traef">
+                    {{ __('Update Address') }}
+                </x-button>
+
+    @endif
             </div>
         </form>
 

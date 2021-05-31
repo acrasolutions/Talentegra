@@ -41,14 +41,28 @@ class SubjectController extends Controller
     }
         public function AddtutorSubject(Request $request)
         {
-           
+        
+        if (Subjects::where('subject_name', '=', $request->subject_tech)->exists()) {
+
+            $subject_id = Subjects::select('subject_name', 'id')->where('subject_name', $request->subject_tech)->get()->first();
+            $subject_id = $subject_id->id;
+            
+            }
+            else{
+
+            $new_subject = new Subjects;
+            $new_subject->subject_name = $request->subject_tech;
+            $new_subject->save();
+            $subject_id = $new_subject->id;
+            }
+
             $existing_data = Profiles::where('user_id', Auth::user()->id)->firstOrFail();
             $tempArray = json_decode($existing_data->subject_tech, true);
            
             if($tempArray==null){
 
                 $messages[] = array(
-                    'subject' => $request->subject_tech,
+                    'subject' => $subject_id,
                     'from_level' => $request->from_level,
                     'to_level' => $request->to_level,
                 );
@@ -61,10 +75,11 @@ class SubjectController extends Controller
             }
             else{
             $messages[] = array(
-                'subject' => $request->subject_tech,
+                'subject' => $subject_id,
                 'from_level' => $request->from_level,
                 'to_level' => $request->to_level,
             );
+           
 
            $finl_mer=array_merge($tempArray, $messages);
             $final_dat=json_encode($finl_mer, true);
@@ -74,8 +89,8 @@ class SubjectController extends Controller
             ->update(['subject_tech' => $final_dat]);
         }
 
-            return redirect()->route('teacher.TutorsSubject')
-            ->with('success','Subject Added');
+        return redirect()->route('teacher.TutorsSubject')
+        ->with('success','Subject Added');
         }
 
 
@@ -197,6 +212,7 @@ class SubjectController extends Controller
 
     public function AddTutorTeachingDetails(Request $request)
     {
+        
             $teaching_details[] = array(
                 'i_charge' => $request->i_charge,
                 'min_fee' => $request->minimum_fee,
@@ -303,7 +319,6 @@ class SubjectController extends Controller
     
     public function UpdatetutorSubject (Request $request)
     {
-
         $existing_edu = Profiles::where('user_id', Auth::user()->id)->firstOrFail();
         $eduArray = json_decode($existing_edu->subject_tech, true);
          $ind_sub_details = $eduArray[$request->id];

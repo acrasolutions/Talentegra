@@ -20,9 +20,9 @@
     <!-- < font-awesome icons ends> -->
 
     <!-- Tooltips -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
      <!-- Tooltip ends -->
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -40,6 +40,12 @@
         <script src="http://parsleyjs.org/dist/parsley.js"></script>
         <!-- Data parsley script ends--> 
 
+        <!-- typeahead search --> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+        <!-- typeahead search script ends--> 
+      
     <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <style type="text/css">
@@ -128,7 +134,7 @@ a.btn-floating:hover {
         </head>
 <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-        @include('layouts.registernavigation')
+        @include('layouts.navigation')
 
             <!-- Page Content -->
             <main style="padding: 2rem;">

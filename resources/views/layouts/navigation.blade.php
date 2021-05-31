@@ -1,10 +1,16 @@
 <style type="text/css">
-  
+  @media only screen and (max-width: 600px) {
+    .desktop-v {
+    display: none;
+  }
+}
 .dropdown {
   position: relative;
   display: inline-block;
 }
-
+a{
+  text-decoration: none !important;
+}
 .dropdown-content {
   display: none;
   position: absolute;
@@ -54,24 +60,28 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css');
 </style>
 
-<nav x-data="{ open: false }" class="bg-white" style="margin-top: 1%; padding-bottom: 2%;">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 p-2">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div class="flex justify-between h-16"  style="display: inline-flex;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+        <div class="flex justify-between h-16">
+            <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                    <a href="{{ route('wel') }}">
+                    <img class="lozad-custom-profile-img h-30 mt-2 p-4 " data-src="{{ URL::asset('public/uploads/logo.jpg')}}" alt="Hamzajavaid image" loading="lazy" src="{{ URL::asset('public/uploads/logo.jpg')}}" style="height: 100px;">
                     </a>
                 </div>
                 <!-- Navigation Links -->
             </div>
-             @auth
-             <div class="" style="float: right;">
-
-            <div class="" style="float: right;">
-      <div class="flex items-center px-4" style="float: right;">
-        <div class="dropdown"> <button class="flex items-center text-sm  hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-black-700 focus:border-gray-300 transition duration-150 ease-in-out">  <svg style="color: blue;height: 1.5rem;width: 2rem;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            
+<!-- ------------------------------------------------part 1---------------------------------------------- -->
+            <!-- Settings Dropdown -->
+            @auth
+  <div class="" style="float: right;">
+        <div class="" style="float: right;">
+             <div class="flex items-center px-4 desktop-v" style="float: right;">
+                   <div class="dropdown ">
+                    <button class="flex items-center text-sm  hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-black-700 focus:border-gray-300 transition duration-150 ease-in-out">  <svg style="color: blue;height: 1.5rem;width: 2rem;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
         @if(Auth::user()->profile_img == null) 
   <img class="img-responsive- rounded-x" src="{{ URL::asset('public/uploads/profile_image/default/pink.jpg')}}" style="height:34px; width:34px;">
 @else
@@ -84,6 +94,7 @@
     </svg>
 </div>
 </button>
+
   <div class="dropdown-content">
    <div class="font-medium text-sm text-gray-500"><a>{{ Auth::user()->name }}<br>{{ Auth::user()->email }}</a>
     <a href="{{ route('student.ProfileSettings') }}"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:blue;" fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
@@ -100,19 +111,24 @@
 </svg>{{ __('Log out') }}
                     </x-responsive-nav-link>
                 </form></a>
+                </div>
   </div>
  </div>
     </div>
+    
            </div> <div style="float: right;">
-              <div class="flex items-center px-4" style="float: right;">
+              <div class="flex items-center px-4 desktop-v pt-1" style="float: right;">
                 <svg style="color: blue;height: 1.5rem;width: 2rem;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
   <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z" />
 </svg>&nbsp;<a style="text-decoration: none; color: black;" href="">Messages</a>
              </div>
-           </div>
-         </div><br> 
+             </div>
+         <br> 
              @endauth
-        <div class="flex justify-between h-16" style="display: inline-flex; float: right;">
+
+ <!-- ------------------------------------------------part 2---------------------------------------------- -->
+
+             <div class="flex justify-between h-16" style="display: inline-flex; float: right;">
             <!-- Settings Dropdown -->
      @guest     
 <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -174,6 +190,90 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
              <button type="button" class="btn btn-success">Request a tutor</button>
             </div>
+            
+
+            <!-- Hamburger -->
+      
+  
+    @endguest
+
+    @auth
+    @if(Auth::user()->user_type == 'Teacher')
+    @php $fill_data = DB::table('profiles')->where('user_id', Auth::user()->id)->get()->first();
+     @endphp
+    @if(($fill_data-> user_id != null) && ($fill_data-> professional_exp != null) && ($fill_data-> teaching_details != null) && ($fill_data-> user_education != null) && ($fill_data-> subject_tech != null) && ($fill_data-> speciality_strength != null)) 
+
+    <div class="hidden sm:flex sm:items-center sm:ml-6">
+             <x-nav-link :href="route('teacher.TeacherDashboard')">
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+            </div>
+<div class="hidden sm:flex sm:items-center sm:ml-6">
+  <div class="dropdown">
+  <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+  <div>{{ __('Jobs') }}</div>
+  <div class="ml-1">
+    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+    </svg>
+</div>
+</button>
+   <div class="dropdown-content">
+    <a href="#">{{ __('My Jobs') }}</a>
+    <a href="{{ route('tutor.SearchJobs') }}">{{ __('Search all Jobs') }}</a>
+    <a href="{{ route('tutor.SearchJobs', ['req_search' => 'Online']) }}"> {{ __('Search Online Jobs') }}</a>
+    <a href="#"> {{ __('Reviews') }}</a>
+  </div>
+</div> 
+</div>     
+
+            <div class="hidden sm:flex sm:items-center sm:ml-6">
+  <div class="dropdown">
+  <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+  <div>{{ __('Wallet') }}</div>
+  <div class="ml-1">
+    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+    </svg>
+</div>
+</button>
+  <div class="dropdown-content">
+    <a href="#">{{ __('Coin Wallet') }}</a>
+    <a href="#">{{ __('Buy Coins') }}</a>
+    <a href="#"> {{ __('Payments') }}</a>
+    <a href="#"> {{ __('Accounts (Getting Paid)') }}</a>
+    <a href="#">{{ __('Invite Friends For Coins') }}</a>
+    <a href="#"> {{ __('Refer To Get Coins') }}</a>
+  </div>
+</div> 
+</div>
+<div class="hidden sm:flex sm:items-center sm:ml-6">
+<div class="dropdown">
+  <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+  <div>{{ __('Edit Profile') }}</div>
+  <div class="ml-1">
+    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+    </svg>
+</div>
+</button>
+  <div class="dropdown-content">
+    <a href="{{ route('teacher.TeacherBasicDetails') }}">{{ __('Personal Details') }}</a>
+    <a href="{{ route('student.ProfileSettings') }}">{{ __('Photo') }}</a>
+    <a href="{{ route('teacher.TutorsSubject') }}"> {{ __('Subjects') }}</a>
+    <a href="{{ route('teacher.UserAddress') }}"> {{ __('Address') }}</a>
+    <a href="{{ route('teacher.UserEducation') }}">{{ __('Education') }}</a>
+    <a href="{{ route('teacher.TeachingExperience') }}"> {{ __('Experience') }}</a>
+    <a href="{{ route('teacher.TutorTeachingDetails') }}"> {{ __('Teaching Details') }}</a>
+    <a href="{{ route('teacher.TutorProfileDescription') }}">{{ __('Profile Description') }}</a>
+    <a href="{{ route('teacher.UserPhone') }}"> {{ __('Phone') }}</a>
+    <a href="{{ route('teacher.TutorViewProfile', ['t_view' => Auth()->user()->id]) }}"> {{ __('View Profile') }}<span class="text-muted small"> (As seen by students)</span></a>
+  </div>
+</div> 
+
+            <div class="hidden sm:flex sm:items-center sm:ml-6">
+             <button type="button" class="btn btn-success">Go Premium</button>
+            </div>
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -186,13 +286,12 @@
             </div>
         </div>
     </div>
-    @endguest
-
-    @auth
     
+    @endif
 
+    @else
 <div class="hidden sm:flex sm:items-center sm:ml-6">
-             <x-nav-link>
+             <x-nav-link :href="route('student_dashboard')">
                     {{ __('My Posts') }}
                 </x-nav-link>
             </div>
@@ -214,6 +313,7 @@
   </div>
 </div> 
 </div>     
+
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
   <div class="dropdown">
@@ -241,8 +341,15 @@
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-             <button type="button" class="btn btn-success">Post Requirement</button>
+             <a href="{{ route('student.PostRequirement') }}"> <button type="button" class="btn btn-success">Post Requirement</button></a>
             </div>
+</div>
+            <!-- Hamburger -->
+           
+@endif
+    @endauth
+
+ <!-- ------------------------------------------------mobile parts---------------------------------------------- -->
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -256,7 +363,8 @@
         </div>
     </div>
 
-    @endauth
+
+    
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
@@ -265,6 +373,11 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
+
+
+
+
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -276,10 +389,10 @@
                 </div>
 
                 <div class="ml-3">
-                  @auth
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                    @endauth
+               
+                    <div class="font-medium text-base text-gray-800">fds</div>
+                    <div class="font-medium text-sm text-gray-500">mail</div>
+                  
                 </div>
             </div>
 
@@ -294,7 +407,8 @@
                         {{ __('Log out') }}
                     </x-responsive-nav-link>
                 </form>
-            </div>
+                </div>
         </div>
     </div>
 </nav>
+

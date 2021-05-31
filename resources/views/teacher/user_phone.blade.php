@@ -1747,9 +1747,6 @@ button {
   </script>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
         </x-slot>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -1757,7 +1754,7 @@ button {
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
 <div class="">
-                <h3 class="box-title">&nbsp;&nbsp;<i class="fas fa-phone-alt" style="color: blue;"></i> Phone Numbers </h3>
+                <h3 class="box-title" style=" font-size: large; !important"">&nbsp;&nbsp;<i class="fas fa-phone-alt" style="color: blue;"></i> Phone Numbers </h3>
                 @if(! empty(Auth::user()->phone))
                 <div class="flex items-center justify-end">
                 <a href="{{ route('teacher.TutorsSubject') }}" type="button" 
@@ -1791,7 +1788,7 @@ class="btn-floating light-green" style="color: forestgreen;font-size: x-large;">
             </div>
             @empty(Auth::user()->phone)
             <div class="mt-4">
-                <h4 class="box-title">&nbsp;&nbsp;<i class="fas fa-plus-circle" style="color: blue;"></i> Add Phone Number </h4>
+                <h4 class="box-title" style="font-size: initial ;">&nbsp;&nbsp;<i class="fas fa-plus-circle" style="color: blue;"></i> Add Phone Number </h4>
             </div>
       
           <form action="{{ route('teacher.AddUserPhone') }}" enctype="multipart/form-data" id="validate_form" method="POST">
@@ -1807,7 +1804,7 @@ class="btn-floating light-green" style="color: forestgreen;font-size: x-large;">
 @endempty
 @if(! empty(Auth::user()->phone))
             <div class="mt-4">
-                <h4 class="box-title">&nbsp;&nbsp;<i class="fas fa-edit" style="color: blue;"></i> Update Phone Number </h4>
+                <h4 class="box-title" style="font-size: initial ;">&nbsp;&nbsp;<i class="fas fa-edit" style="color: blue;"></i> Update Phone Number </h4>
             </div>
            
           <form action="{{ route('teacher.AddUserPhone') }}" enctype="multipart/form-data" id="validate_form" method="POST">

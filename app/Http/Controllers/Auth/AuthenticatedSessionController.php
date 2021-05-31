@@ -21,7 +21,6 @@ class AuthenticatedSessionController extends Controller
     }
 
 
-
     /**
      * Handle an incoming authentication request.
      *
@@ -40,15 +39,15 @@ class AuthenticatedSessionController extends Controller
                         return redirect()->route('teacher_iam');
                     }
                     else{
-                        return view('dashboard');
+                        return redirect()->route('wel');
                     }
                 }
                     if(Auth::user()->user_type == 'Student/Parent'){
-                            return redirect()->route('student_dashboard');
+                            return redirect()->route('wel');
                         }
                    
     
-    return view('dashboard');
+                        return redirect()->route('wel');
 }
 
     /**

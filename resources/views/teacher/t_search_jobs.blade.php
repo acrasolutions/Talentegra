@@ -1,103 +1,22 @@
 
 <x-app-layout>
-<!-- confirm delete model starts style -->
-<style>
-    body {
-		font-family: 'Varela Round', sans-serif;
-	}
-	.modal-confirm {		
-		color: #636363;
-		width: 400px;
-		margin: 30px auto;
-	}
-	.modal-confirm .modal-content {
-		padding: 20px;
-		border-radius: 5px;
-		border: none;
-        text-align: center;
-		font-size: 14px;
-	}
-	.modal-confirm .modal-header {
-		border-bottom: none;   
-        position: relative;
-	}
-	.modal-confirm h4 {
-		text-align: center;
-		font-size: 26px;
-		margin: 30px 0 -10px;
-	}
-	.modal-confirm .close {
-        position: absolute;
-		top: -5px;
-		right: -2px;
-	}
-	.modal-confirm .modal-body {
-		color: #999;
-	}
-	.modal-confirm .modal-footer {
-		border: none;
-		text-align: center;		
-		border-radius: 5px;
-		font-size: 13px;
-		padding: 10px 15px 25px;
-	}
-	.modal-confirm .modal-footer a {
-		color: #999;
-	}		
-	.modal-confirm .icon-box {
-		width: 80px;
-		height: 80px;
-		margin: 0 auto;
-		border-radius: 50%;
-		z-index: 9;
-		text-align: center;
-		border: 3px solid #f15e5e;
-	}
-	.modal-confirm .icon-box i {
-		color: #f15e5e;
-		font-size: 46px;
-		display: inline-block;
-		margin-top: 13px;
-	}
-    .modal-confirm .btn {
-        color: #fff;
-        border-radius: 4px;
-		background: #60c7c1;
-		text-decoration: none;
-		transition: all 0.4s;
-        line-height: normal;
-		min-width: 120px;
-        border: none;
-		min-height: 40px;
-		border-radius: 3px;
-		margin: 0 5px;
-		outline: none !important;
-    }
-	.modal-confirm .btn-info {
-        background: #c1c1c1;
-    }
-    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
-        background: #a8a8a8;
-    }
-    .modal-confirm .btn-danger {
-        background: #f15e5e;
-    }
-    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
-        background: #ee3535;
-    }
-	.trigger-btn {
-		display: inline-block;
-		margin: 100px auto;
-	}
-</style>
-<!-- confirm delete model ends style -->
 <style>
 
 .profile-header {
     /* position: relative; */
     overflow: hidden
 }
-
+.ss:hover{
+    background: #007bff!important;
+    color: white;
+}
+.iun{
+    color: darkgrey;
+    font-size: medium;
+}
+.ian{
+    font-size: medium;
+}
 .profile-header .profile-header-cover {
     /* background-image: url(https://bootdey.com/img/Content/bg1.jpg); */
     background-size: cover;
@@ -107,8 +26,7 @@
     left: 0;
     right: 0;
     top: 0;
-    bottom: 0;
-   
+    bottom: 0
 }
 
 .profile-header .profile-header-cover:before {
@@ -430,18 +348,23 @@ select.form-control:not([size]):not([multiple]) {
     position: relative
 }
 
-.hef:hover {
-  
-  box-shadow: 0 10px 14px rgb(0 0 0 / 10%), 0 6px 12px rgb(0 0 0 / 20%);
-}
+
 
 .timeline>li {
     position: relative;
     min-height: 50px;
     padding: 20px 0
 }
-
-
+.brup:hover{
+    color: deepskyblue;
+}
+.brup{
+    border: none !important;
+    background: transparent;
+    color: white;
+    font-weight: bolder;
+   
+}
 
 .timeline .timeline-body {
     /* margin-left: 23%;
@@ -469,7 +392,8 @@ select.form-control:not([size]):not([multiple]) {
 .timeline .timeline-body>div+div:last-child {
     margin-bottom: -20px;
     padding-bottom: 20px;
-    border-radius: 0 0 6px 6px
+    border-radius: 0 0 6px 6px;
+    font-size: smaller;
 }
 
 .timeline-header {
@@ -535,13 +459,14 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .timeline-likes {
-    color: #6d767f;
+    color: balck;
     font-weight: 600;
-    font-size: 14px
+    font-size: 12px
 }
 
 .timeline-likes .stats-right {
-    float: right
+    float: right;
+    font-size: 14px;
 }
 
 .timeline-likes .stats-total {
@@ -582,27 +507,30 @@ select.form-control:not([size]):not([multiple]) {
     font-weight: 300;
     line-height: 1.4;
 }
-
+.hef:hover {
+  
+    box-shadow: 0 10px 14px rgb(0 0 0 / 10%), 0 6px 12px rgb(0 0 0 / 20%);
+}
 .text-danger, .text-red {
     color: #ff5b57!important;
+}
+.hb{
+    border:none;
+}
+.hb:hover{
+    border:none !important;
+    outline:none !important;
 }
 </style>
 <x-slot name="header">
  </x-slot>
-
-@php
- $obs_cat= DB::table('student_posts')->where('user_id', Auth()->user()->id)->orderBy('id','desc')->paginate(10);
-
-@endphp
-@if($obs_cat->count() > 0)
-
+<div>
+@include('flash-message')
+</div>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
-
    <div class="row">
       <div class="col-md-12">
-      
-
-     
          <div id="content" class="content content-full-width">
             <!-- begin profile -->
             <div class="profile">
@@ -613,33 +541,48 @@ select.form-control:not([size]):not([multiple]) {
                   <!-- BEGIN profile-header-content -->
                   <div class="profile-header-content ">
                      <!-- BEGIN profile-header-img -->
-                     <!-- <div class="profile-header-img">
-                     @if(Auth::user()->profile_img == null)
-                        <img src="{{ URL::asset('public/uploads/profile_image/default/pink.jpg')}}" alt="">
-                        @else
-                        <img src="{{ URL::asset('public/uploads/profile_image/' .Auth::user()->profile_img)}}" alt="">
-                        @endif
-                     </div> -->
+                    
                      <!-- END profile-header-img -->
                      <!-- BEGIN profile-header-info -->
                      <div class="profile-header-info">
-                        <h4 class="m-t-10 m-b-5 mb-4 float-left"><i class="fas fa-sticky-note"></i>My Requirements</h4>
-                        <a href="{{ route('student.PostRequirement') }}" class="btn btn-sm btn-info p-3 float-right">Post Your Study Needs</a>
+                        <h4 class="m-t-10 m-b-5 mb-4 float-left"><span class="fas fa-globe"></span> Tutor jobs</h4>
+                        <!-- <a href="#" class="btn btn-sm btn-info p-3 float-right">Post Your Study Needs</a> -->
                      </div>
-                     
                      <!-- END profile-header-info -->
                   </div>
                   <!-- END profile-header-content -->
-                  
                </div>
             </div>
-            <div class="float-right mb-2 mt-4">
-       @include('flash-message')
-       <br>
-</div>
+            
             <!-- end profile -->
             <!-- begin profile-content -->
             <div class="profile-content">
+
+            <div class="container" style="width: 70%;">
+        <form action="{{ route('t_jobsearch') }}" method="POST" role="search">
+            {{ csrf_field() }}
+            <div class="input-group  mb-4">
+                <input type="text" class="form-control mr-2" name="q"
+                    placeholder="Subject/skill"> 
+                    <input type="text" class="form-control" name="location_s"
+                    placeholder="Location">
+                    <button type="submit" class="btn btn-default hb">
+                        <span class="text-white bg-primary p-2"> <i class="fas fa-search"> Search</i></span>
+                    </button>
+                    </form>
+            </div>
+       
+        <div class="row mx-auto justify-content-center">
+        <ul class="list-group list-group-horizontal" style="display:contents;">
+       
+        <a href="{{ route('tutor.SearchJobs', ['req_search' => 'all']) }}"><li class="list-group-item brup">All</li></a>
+        <a href="{{ route('tutor.SearchJobs', ['req_search' => 'Online']) }}"><li class="list-group-item brup">Online</li></a>
+        <a href="{{ route('tutor.SearchJobs', ['req_search' => 'Home']) }}"><li class="list-group-item brup">Home</li></a>
+        <a href="{{ route('tutor.SearchJobs', ['req_search' => 'Assignment']) }}"><li class="list-group-item brup">Assignment</li></a>
+
+</ul>
+        </div>
+    </div>
                <!-- begin tab-content -->
                <div class="tab-content p-0">
                   <!-- begin #profile-post tab -->
@@ -648,15 +591,102 @@ select.form-control:not([size]):not([multiple]) {
                      <ul class="timeline">
                         <li>
                            <!-- end timeline-icon -->
+                           @if($obs_cat->count() != 0)
                            @foreach ($obs_cat as $key => $row)
-                          
                            <!-- begin timeline-body -->
-                          
                            <div class="timeline-body mb-4 hef">
                               <div class="timeline-header">
-                              <a href="">
-                              <span class="username text-primary">
+                              <a href="#">
+                                 <span class="username text-primary">
+                                 @php
+                                 $f_s_n=[];
+                                    $sub_id = $row->st_subjects;
+                                    $sub_ext = json_decode($sub_id, True);
+                                    foreach($sub_ext as $key => $thr){
+                                        $sub_tb= DB::table('subjects')->where('id', $thr)->get()->pluck('subject_name')->first();
+                                        $f_s_n[] =  $sub_tb;
+                                    }
+                                    $ext_arr = json_encode($f_s_n, True);
+                                    $s_name= trim($ext_arr, '[""]');
+                                    $sc_name = str_replace('"', ' ', $s_name); 
+                                  
+                                 @endphp
+                                 @php $meet_opt=json_decode($row->meeting_options);
+                                @endphp
+                                @if($row->st_i_want != "Assignment")
+                                
+                                @if(((in_array('Home', $meet_opt)) && in_array('Online', $meet_opt)))
+                                 Home | Online {{$sc_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 @elseif(in_array('Home', $meet_opt))
+                                 Home {{$sc_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 @elseif(in_array('Online', $meet_opt))
+                                 Online {{$sc_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                
+                                 @elseif(in_array('Travel', $meet_opt))
+                                 <span class="text-capitalize"> {{$sc_name}}</span> teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span> </a>
+                                 @endif
+                                 @endif
+                                 @if($row->st_i_want == "Assignment")
+                                 
+                                 @if(((in_array('Home', $meet_opt)) && in_array('Online', $meet_opt)))
+                                 Home | Online {{$sc_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 @elseif(in_array('Home', $meet_opt))
+                                 Home {{$sc_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 @elseif(in_array('Online', $meet_opt))
+                                 Online {{$sc_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
+                                 
+                                 @elseif(in_array('Travel', $meet_opt))
+                                 <span class="text-capitalize"> {{$sc_name}}</span> assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span></a>
+                                 @endif
+                                 @endif
+                                 
 
+                                 <span class="pull-right text-muted"><span class="tooltips  margin-right-10  " data-toggle="tooltip" data-placement="bottom" data-original-title="{{ $row->st_location }}">
+                                    <span class="h3">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </span>
+                                    <span>{{ $row->st_location}}</span>
+                                            </span>
+                                            </span>
+                              </div>
+                              <div class="timeline-content">
+                                 <p class="text-capitalize">
+                               {{$row->st_requirement}}
+                                 </p>
+                              </div>
+                              <div class="timeline-likes">
+                                 <div class="stats-right">
+@php
+$u_data = DB::table('users')->whereId($row->user_id)->pluck('phone_verified')->first();
+
+@endphp
+
+                                @if($u_data == null)
+                                    <span class="stats-text"><i class="fas fa-mobile-alt iun" data-toggle="tooltip" data-placement="top" data-original-title="Phone unavailable"></i></span>
+                                    @else 
+                                    <span class="stats-text"><i class="fas fa-mobile-alt ian" data-toggle="tooltip" data-placement="top" data-original-title="Phone Verified"></i></span>
+                                    @endif
+                                    @php $meet_opt=json_decode($row->meeting_options);
+                                    @endphp
+                                    @if(in_array('Online', $meet_opt))
+                                    <span class="stats-text" data-toggle="tooltip" data-original-title="Not Available to meet online"><i class="fas fa-wifi iun"></i></span>
+                                    @else
+                                    <span class="stats-text" data-toggle="tooltip" data-original-title="Available to meet online"><i class="fas fa-wifi ian"></i></span>
+                                    @endif
+                                    @if(in_array('Home', $meet_opt))
+                                    <span class="stats-text"><i class="fas fa-home iun" data-toggle="tooltip" data-original-title="Not available for home tutoring"></i></span>
+                                    @else
+                                    <span class="stats-text"><i class="fas fa-home ian" data-toggle="tooltip" data-original-title="available for home tutoring"></i></span>
+                                    @endif
+                                    @if($row->km_travel!=null)
+                                     <span class="stats-text"><i class="fas fa-car ian" data-toggle="tooltip"  data-original-title="Can travel ({{$row->km_travel}}.0km)"> {{$row->km_travel}} km</i> </span>
+                                   
+                                    @else
+                                    <span class="stats-text"><i class="fas fa-car iun" data-toggle="tooltip"  data-original-title="Can not travel"> </i> </span>
+                                  
+                                    @endif
+                                 </div>
+                                 <div class="stats">
                                  @php
                                  $s_n=[];
                                     $sub_id = $row->st_subjects;
@@ -665,135 +695,81 @@ select.form-control:not([size]):not([multiple]) {
                                         $sub_tb= DB::table('subjects')->where('id', $num)->get()->pluck('subject_name')->first();
                                         $s_n[] =  $sub_tb;
                                     }
-                                    $ext_arr = json_encode($s_n, True);
-                                    $s_name= trim($ext_arr, '[""]');
-                                    $sd_name = str_replace('"', ' ', $s_name); 
-                                  
                                  @endphp
-                                 @php $meet_opt=json_decode($row->meeting_options);
-                                @endphp
-                                @if($row->st_i_want != "Assignment")
-                                
-                                @if(((in_array('Home', $meet_opt)) && in_array('Online', $meet_opt)))
-                                 Home | Online {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Home', $meet_opt))
-                                 Home {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Online', $meet_opt))
-                                 Online {{$sd_name}} teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                
-                                 @elseif(in_array('Travel', $meet_opt))
-                                 <span class="text-capitalize"> {{$sd_name}}</span> teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span> </a>
-                                 @endif
-                                 @endif
-                                 @if($row->st_i_want == "Assignment")
-                                 
-                                 @if(((in_array('Home', $meet_opt)) && in_array('Online', $meet_opt)))
-                                 Home | Online {{$sd_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Home', $meet_opt))
-                                 Home {{$sd_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 @elseif(in_array('Online', $meet_opt))
-                                 Online {{$sd_name}} assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span>
-                                 
-                                 @elseif(in_array('Travel', $meet_opt))
-                                 <span class="text-capitalize"> {{$sd_name}}</span> assignment help teacher needed in <span class="text-capitalize">{{$row->st_location}}</span></a> <small></small></span> </span></a>
-                                 @endif
-                                 @endif
-
-                                 <span class="pull-right text-muted"><span class="tooltips  margin-right-10  " data-toggle="tooltip" data-placement="bottom" data-original-title="{{ $row->st_location }}">
-                                    <span class="h3">
-                                        <i class="fas fa-map-marker-alt text-primary"></i>
-                                    </span>
-                                    <span> {{ $row->st_location }}</span>
-                                            </span>
-                                            </span>
-                              </div>
-                              <div class="timeline-content">
-                                 <p class="text-capitalize">
-                                 {{ $row->st_requirement }}
-                                 </p>
-                              </div>
-                              <div class="timeline-likes">
-                                 <div class="stats-right">
-                                    <!-- <span class="stats-text">Online</span>
-                                    <span class="stats-text">21 Comments</span> -->
-                                 </div>
-                                 <div class="stats">
-                                 @if($row->km_travel!=null)
-                                 <span class="tooltips margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title="Willing to Travel {{$row->km_travel}} KM">
-                                    <span class="h3"><i class="fas fa-car" title="Willing to travel"></i> </span>{{$row->km_travel}} km
-                                                </span>|
-                                   
-                                   
-                                    @endif
-                                            @php
-  $b_ft=json_decode($row->st_budget, True);   
-                                            @endphp
-                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-rupee-sign" style="font-size;"></i>
-                                                    <span class="h3 margin-right-2 display-inline-block"></span>{{$b_ft[0]}}/{{$b_ft[1]}}
-                                                </span>
+                                  @foreach($s_n as $subs)
+                                 <a href="#"><span class="p-1 m-1 border border-primary ss rounded-left">{{$subs}}</span> </a>
+                                    @endforeach
+                                               
                                  </div>
                               </div>
                               <div class="timeline-footer">
-                              <a href="javascript:;" class="m-r-15 text-inverse-lighter" style="margin-right: 8px;"><i class="fa fa-share fa-fw fa-lg m-r-3 text-primary"></i> View Messages</a>
-                              @if($row->status==1)
-                                 <a href="javascript:;" style="margin-right: 8px;" data-toggle="modal" data-target="#deletepost_{{$row->id}}" class="m-r-15 text-inverse-lighter" data-toggle="tooltip" data-placement="top" data-original-title="Do you want to Close this post?"><i class="fas fa-times-circle fa-fw fa-lg m-r-3 text-danger"></i> close</a> 
+                              @php  
+                                                    $uld_data = DB::table('users')->whereId($row->user_id)->pluck('last_seen')->first();
+                                                    @endphp
+                              <span class="tooltips margin-right-10" data-toggle="tooltip" data-placement="top" data-original-title="Student confirmed that they still need a tutor when we called {{ \Carbon\Carbon::parse($uld_data)->diffForHumans() }}">
+                                                    <span class="h3"><i class="fas fa-headset" title="Willing to travel"></i> </span> 
+                                                  
+                                                    @if($uld_data != null)
+                                            {{ \Carbon\Carbon::parse($uld_data)->diffForHumans() }}
+                                        @else
+                                            No data
+                                        @endif
+                                        </span>|
+
+                                                <span class="tooltips margin-right-10 margin-left-10" data-toggle="tooltip" data-placement="top" data-original-title="Student confirmed that they still need a tutor when we called {{ \Carbon\Carbon::parse($uld_data)->diffForHumans() }}">
+                                                    <span class="h3"><i class="fas fa-coins" title="125 coins to apply for this job"></i> </span>125 coins
+                                                </span>|
+
+                                                <span class="tooltips margin-left-10 margin-right-10" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                    <span class="h3 margin-right-2 display-inline-block"></i><i class="fas fa-map-marker-alt" style="font-size;"></i></span> {{$row->st_location}}
+                                                </span>|
+                                                @php
+  $b_ft=json_decode($row->st_budget, True);   
+                                            @endphp
+                                                <span class="tooltips margin-left-10 margin-right-10" data-toggle="tooltip" data-placement="top" data-original-title="{{$b_ft[0]}}/{{$b_ft[1]}}"><i class="fas fa-dollar-sign"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span> {{$b_ft[0]}}/{{$b_ft[1]}}
+                                                </span>
+
+                                                   
+                                 @if(Cache::has('user-is-online-' . $row->user_id))
+                                 <i class="fas fa-circle float-right text-success" data-toggle="tooltip" data-original-title="recruiter is online chat now"> online</i>
                                     @else
-                                    <span class="m-r-15 text-inverse-lighter text-danger" style="margin-right: 8px;"><i class="fas fa-exclamation-triangle fa-fw fa-lg m-r-3 text-danger"></i>Post closed</span>
-
-                                    <a href="{{route('student.StudentRePost', ['post_id'=>$row->id]) }}"><span class="m-r-15 text-inverse-lighter" data-toggle="tooltip" data-placement="top" data-original-title="Do you want to Repost?" ><i class="fas fa-undo-alt fa-fw fa-lg m-r-3 text-success"></i> Repost</a> 
-                                    @endif
-                                 <!-- Modal -->
-<!-- Modal HTML -->
-<div id="deletepost_{{$row->id}}" class="modal fade">
-	<div class="modal-dialog modal-confirm">
-		<div class="modal-content">
-			<div class="modal-header" style="display:contents;">
-				<div class="icon-box">
-					<i class="material-icons">&#xE5CD;</i>
-				</div>				
-				<h4 class="modal-title">Are you sure?</h4>	
-                <button type="button" class="close mr-auto mt-auto" data-dismiss="modal" aria-hidden="true">&times;</button>
-			</div>
-			<div class="modal-body">
-				<p>Do you really want to close this Post? You can also repost it later.</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                <a href="#"><button type="button" class="btn btn-danger">Close Post</button></a>
-			</div>
-		</div>
-	</div>
-</div>     
-
-                                 <span class="badge badge-pill badge-secondary rounded-left float-right  mt-2" data-toggle="tooltip" data-original-title="Posted {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}"><i class="fas fa-history mr-1" ></i>Posted {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</span>
+                                 <i class="fas fa-circle float-right text-secondary mt-1"  data-toggle="tooltip" data-original-title="recruiter is offline now"> offline</i>
+                                 @endif
+                                
+                                            <br>
+                                 <span class="badge badge-pill badge-secondary rounded-left float-right " style="margin-top: -.6rem !important;" data-toggle="tooltip"  data-original-title="Posted {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}"><i class="fas fa-history mr-1" ></i>Posted {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</span>
+                                
                               </div>
+                             
             <!-- end profile-content -->
          </div>
-        
+        <!-- <script>
+                                            window.setInterval(function(){
+                                                $.ajax({
+                                                    url: "{{ url('live-status') }}/{{$row->user_id }}",
+                                                    method: 'GET',
+                                                    success: function (result) {
+                                                        console.log(result);
+                                                       
+                                                        
+                                                        $('#status_{{$row->user_id}}').html("Status: " + result.status + "<br/>Last Seen: " + result.last_seen);
+                                                    }
+                                                });
+                                            }, 10000); // call every 10 seconds
+                                        </script> -->  
          @endforeach
       </div>
-     </div>
+      {{ $obs_cat->links() }}
+      @else
+         
+         <p class="mx-auto" style="text-align: center;font-weight:bolder;"><i class="fas fa-undo-alt" style="color: red;"></i> "No jobs found" for your search. Add relevant subjects in your profile to receive job enquiries.</p>
+        
+         @endif
    </div>
 </div>
-{{ $obs_cat->links() }}
-@else
-<div class="card text-center mx-auto m-5" style="width: 70%;">
-  <div class="card-header">
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">You haven't posted any requirements yet.</h5>
-    <p class="card-text"> <a class="btn btn-primary rounded text-center margin-top-20" href="{{ route('student.PostRequirement') }}">
-                    Post a Requirement
-                </a></p>
-               <h6>or</h6>
-                <a class="btn btn-danger rounded text-center" href="#">
-                Find Teachers
-                </a>
-  </div>
-  <div class="card-footer text-muted">
-  </div>
-</div>
-    @endif
+
+
    
 
 </x-app-layout>

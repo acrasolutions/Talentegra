@@ -537,7 +537,7 @@ select.form-control:not([size]):not([multiple]) {
 .timeline-likes {
     color: #6d767f;
     font-weight: 600;
-    font-size: 14px
+    font-size: 15px
 }
 
 .timeline-likes .stats-right {
@@ -574,8 +574,6 @@ select.form-control:not([size]):not([multiple]) {
     padding: 20px 25px
 }
 
-
-
 .lead {
     margin-bottom: 20px;
     font-size: 21px;
@@ -589,20 +587,12 @@ select.form-control:not([size]):not([multiple]) {
 </style>
 <x-slot name="header">
  </x-slot>
-
-@php
- $obs_cat= DB::table('student_posts')->where('user_id', Auth()->user()->id)->orderBy('id','desc')->paginate(10);
-
-@endphp
-@if($obs_cat->count() > 0)
-
+@if($obs_cat != null);
 <div class="container">
 
    <div class="row">
       <div class="col-md-12">
-      
 
-     
          <div id="content" class="content content-full-width">
             <!-- begin profile -->
             <div class="profile">
@@ -623,14 +613,12 @@ select.form-control:not([size]):not([multiple]) {
                      <!-- END profile-header-img -->
                      <!-- BEGIN profile-header-info -->
                      <div class="profile-header-info">
-                        <h4 class="m-t-10 m-b-5 mb-4 float-left"><i class="fas fa-sticky-note"></i>My Requirements</h4>
-                        <a href="{{ route('student.PostRequirement') }}" class="btn btn-sm btn-info p-3 float-right">Post Your Study Needs</a>
+                        <h4 class="m-t-10 m-b-5 mb-4 float-left"><i class="fas fa-sticky-note"></i>View Post</h4>
                      </div>
-                     
+                   
                      <!-- END profile-header-info -->
                   </div>
                   <!-- END profile-header-content -->
-                  
                </div>
             </div>
             <div class="float-right mb-2 mt-4">
@@ -639,7 +627,18 @@ select.form-control:not([size]):not([multiple]) {
 </div>
             <!-- end profile -->
             <!-- begin profile-content -->
-            <div class="profile-content">
+                  @php
+                     $ck_post= DB::table('student_posts')->where('id', $obs_cat[0]->id)->get('status')->first();
+                  
+                     @endphp
+                     @if($ck_post->status == 0)
+            <div class="alert alert-danger mx-auto" style="width: 70%;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+            </button>
+            <i class="material-icons" style="font-size: x-large; margin-top: -1px !important;">error_outline</i><b>&nbsp;Alert About The Post :</b> This requirement is closed!
+        </div>
+    @endif
                <!-- begin tab-content -->
                <div class="tab-content p-0">
                   <!-- begin #profile-post tab -->
@@ -649,12 +648,11 @@ select.form-control:not([size]):not([multiple]) {
                         <li>
                            <!-- end timeline-icon -->
                            @foreach ($obs_cat as $key => $row)
-                          
                            <!-- begin timeline-body -->
                           
                            <div class="timeline-body mb-4 hef">
                               <div class="timeline-header">
-                              <a href="">
+                              <a href="#">
                               <span class="username text-primary">
 
                                  @php
@@ -707,10 +705,23 @@ select.form-control:not([size]):not([multiple]) {
                                             </span>
                                             </span>
                               </div>
-                              <div class="timeline-content">
-                                 <p class="text-capitalize">
+                              <div class="timeline-content mb-5">
+                              
+                                 <p class="text-capitalize mb-4">
                                  {{ $row->st_requirement }}
                                  </p>
+                                 @php
+                                 $s_n=[];
+                                    $sub_id = $row->st_subjects;
+                                    $sub_ext = json_decode($sub_id, True);
+                                    foreach($sub_ext as $key => $num){
+                                        $sub_tb= DB::table('subjects')->where('id', $num)->get()->pluck('subject_name')->first();
+                                        $s_n[] =  $sub_tb;
+                                    }
+                                 @endphp
+                                  @foreach($s_n as $subs)
+                                 <a href="#" ><span class="p-1 m-1 border border-primary ss rounded-left">{{$subs}}</span> </a>
+                                    @endforeach
                               </div>
                               <div class="timeline-likes">
                                  <div class="stats-right">
@@ -718,20 +729,85 @@ select.form-control:not([size]):not([multiple]) {
                                     <span class="stats-text">21 Comments</span> -->
                                  </div>
                                  <div class="stats">
-                                 @if($row->km_travel!=null)
-                                 <span class="tooltips margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title="Willing to Travel {{$row->km_travel}} KM">
-                                    <span class="h3"><i class="fas fa-car" title="Willing to travel"></i> </span>{{$row->km_travel}} km
-                                                </span>|
-                                   
-                                   
-                                    @endif
-                                            @php
-  $b_ft=json_decode($row->st_budget, True);   
+                                 @php
+                                        $b_ft=json_decode($row->st_budget, True);   
                                             @endphp
-                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-rupee-sign" style="font-size;"></i>
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black mb-5" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-rupee-sign" style="font-size;"></i>
                                                     <span class="h3 margin-right-2 display-inline-block"></span>{{$b_ft[0]}}/{{$b_ft[1]}}
+                                                </span>|
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-signal" style="font-size;"></i>
+                                                @php
+                                                $lvl_tbl= DB::table('grade_level')->where('id', $row->st_level)->pluck('grade_level_name')->first();
+                                             
+                                                @endphp
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Level : {{$lvl_tbl}}
+                                                </span>|
+
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-chalkboard-teacher" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Requires : {{$row->i_need_smeone}}
+                                                </span>|
+
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-user" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Posted by : <span class="text-capitalize"> {{Auth()->user()->name}}</span> ( Student <i class="fas fa-info-circle text-primary" data-toggle="tooltip" data-original-title="About 5% of users give wrong information regarding who they are. Coins aren't refunded because of this. " style="font-size;"></i> )
                                                 </span>
+<br><br>
+                                            @if(Auth()->user()->phone_verified != null)
+                                                    <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-mobile-alt text-success" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Phone:  {{Auth()->user()->phone}} <span class="badge badge-pill badge-success">verified</span>
+                                                </span>
+                                                @else
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-mobile-alt text-success" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Phone:  {{Auth()->user()->phone}} <span class="badge badge-pill badge-danger">Not verified</span>
+                                                </span>
+                                                @endif
+                                                <br><br>
+
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-venus-mars" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Gender Preference : {{$row->st_gender_prfer}}
+                                                </span>
+                                                @php
+                                                $sub_i= DB::table('student_posts')->where('id', $row->id)->get('st_i_want')->pluck('st_i_want');
+                                                @endphp
+                                                @if($sub_i[0] == "Assignment")
+                                                |<span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title="">
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Due date : {{$row->ass_due_date}}
+                                                </span>
+                                                @endif
+                                                <br><br>
+                                            
+                                 @php $meet_opt=json_decode($row->meeting_options);
+                                @endphp
+                                @if(in_array('Online', $meet_opt))
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-wifi" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Available online
+                                                </span>|
+                                                @else
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black text-secondary" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-wifi" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span>Not Available online
+                                                </span>|
+                                                @endif
+                                                @if(in_array('Home', $meet_opt))
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-home" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span> Available for home tutoring
+                                                </span>|
+                                                @else
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black text-secondary" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-home" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span> Not Available for home tutoring
+                                                </span>|
+                                                @endif
+                                                @if($row->km_travel!=null)
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black" data-toggle="tooltip" data-placement="bottom" data-original-title="Willing to Travel {{$row->km_travel}} KM"><i class="fas fa-car" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span> Can travel {{$row->km_travel}} km
+                                                </span>
+                                                @else
+                                                <span class="tooltips margin-left-10 margin-right-10 text-black text-secondary" data-toggle="tooltip" data-placement="bottom" data-original-title=""><i class="fas fa-car" style="font-size;"></i>
+                                                    <span class="h3 margin-right-2 display-inline-block"></span> Can not travel
+                                                </span>
+                                                @endif
+
                                  </div>
+                                
+                                 
                               </div>
                               <div class="timeline-footer">
                               <a href="javascript:;" class="m-r-15 text-inverse-lighter" style="margin-right: 8px;"><i class="fa fa-share fa-fw fa-lg m-r-3 text-primary"></i> View Messages</a>
@@ -759,7 +835,7 @@ select.form-control:not([size]):not([multiple]) {
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                <a href="#"><button type="button" class="btn btn-danger">Close Post</button></a>
+                <a href="{{route('student.DeletePost', ['post_id'=>$row->id]) }}"><button type="button" class="btn btn-danger">Close Post</button></a>
 			</div>
 		</div>
 	</div>
@@ -775,25 +851,8 @@ select.form-control:not([size]):not([multiple]) {
      </div>
    </div>
 </div>
-{{ $obs_cat->links() }}
-@else
-<div class="card text-center mx-auto m-5" style="width: 70%;">
-  <div class="card-header">
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">You haven't posted any requirements yet.</h5>
-    <p class="card-text"> <a class="btn btn-primary rounded text-center margin-top-20" href="{{ route('student.PostRequirement') }}">
-                    Post a Requirement
-                </a></p>
-               <h6>or</h6>
-                <a class="btn btn-danger rounded text-center" href="#">
-                Find Teachers
-                </a>
-  </div>
-  <div class="card-footer text-muted">
-  </div>
-</div>
+
+
     @endif
-   
 
 </x-app-layout>
